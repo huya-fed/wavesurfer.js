@@ -295,6 +295,12 @@ class Region {
 
     /* Bind DOM events. */
     bindEvents() {
+        this.element.addEventListener('contextmenu', e => {
+          // ctrl+click 的处理
+          e.preventDefault()
+          this.fireEvent('click', e);
+          this.wavesurfer.fireEvent('region-click', this, e);
+        })
         this.element.addEventListener('mouseenter', e => {
             this.fireEvent('mouseenter', e);
             this.wavesurfer.fireEvent('region-mouseenter', this, e);

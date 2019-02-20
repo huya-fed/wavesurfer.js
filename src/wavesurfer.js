@@ -244,7 +244,7 @@ export default class WaveSurfer extends util.Observer {
      * @example
      * console.log('Using wavesurfer.js ' + WaveSurfer.VERSION);
      */
-    static VERSION = __VERSION__;
+    // static VERSION = __VERSION__;
 
     /**
      * Functions in the `util` property are available as a prototype property to

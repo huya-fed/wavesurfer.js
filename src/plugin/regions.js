@@ -37,6 +37,9 @@ class Region {
         this.scrollSpeed = params.scrollSpeed || 1;
         this.scrollThreshold = params.scrollThreshold || 10;
 
+        this.handleWidth = params.handleWidth || '4px';
+        this.delete = Boolean(params.delete);
+
         this.bindInOut();
         this.render();
         this.wavesurfer.on('zoom', this._onRedraw);
@@ -143,16 +146,46 @@ class Region {
                 cursor: 'col-resize',
                 position: 'absolute',
                 left: '0px',
-                top: '0px',
-                width: '1%',
-                maxWidth: '4px',
-                height: '100%'
+                top: '25%',
+                width: this.handleWidth,
+                height: '50%',
+                backgroundColor: 'rgba(128,128,128,.4)',
+
             };
             this.style(handleLeft, css);
             this.style(handleRight, css);
             this.style(handleRight, {
-                left: '100%'
+                left: 'unset',
+                right: '0px',
             });
+        }
+
+        if (this.delete) {
+          const deleteBtn = regionEl.appendChild(document.createElement('span'))
+          deleteBtn.appendChild(document.createTextNode('x'))
+          deleteBtn.className = 'wavesurfer-delete-button'
+          const css = {
+            position: 'absolute',
+            right: '2px',
+            top: '2px',
+
+            display: 'block',
+            width: '14px',
+            height: '14px',
+            fontSize: '14px',
+            lineHeight: '14px',
+            border: '1px solid #f78989',
+            borderRadius: '16px',
+
+            cursor: 'pointer',
+            color: '#f78989',
+          }
+          this.style(deleteBtn, css)
+          const deleteBtnHandler = (event) => {
+            this.remove()
+            event.stopPropagation()
+          }
+          deleteBtn.addEventListener('click', deleteBtnHandler)
         }
 
         this.element = this.wrapper.appendChild(regionEl);
